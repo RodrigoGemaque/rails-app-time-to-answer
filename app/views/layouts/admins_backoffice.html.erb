@@ -1,0 +1,60 @@
+
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title> Admins-Backoffice- AdminLTE 3.0</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag 'application' %>
+    <%= javascript_pack_tag 'application' %>
+  </head>
+
+  <body data-scrollbar-auto-hide="n" class="hold-transition sidebar-mini layout-fixed">
+      <div class="wrapper">
+        <%= render "_admins/header" %>
+        <%= render "_admins/sidebar" %>
+
+        <div class="content-wrapper">
+          <div class="content-header">
+            <div class="container-fluid">
+              <div class="row mb-2">
+                <div class="col-sm-6">
+                
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                  <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Starter Page</li>
+                  </ol>
+                </div><!-- /.col -->
+              </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+          </div>
+
+          <div class="content container-fluid">
+            <div class="container-fluid">
+            <%=action_name%>
+              <%= yield %>
+            </div>
+          </div>
+        </div>
+
+        <%= render "_admins/footer" %>
+        <%= render "_admins/control_sidebar" %>
+        
+      <div>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
