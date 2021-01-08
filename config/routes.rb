@@ -3,6 +3,8 @@ Rails.application.routes.draw do
     get 'welcome/index' #Dashboard
     resources :admins   #  Administradores  
     resources :subjects #  Assuntos/Areas
+    resources :questions #  Perguntas
+
   end
 
   namespace :users_backoffice do
