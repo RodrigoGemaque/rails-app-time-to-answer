@@ -1,0 +1,7 @@
+O problema n+1 esta relacionado com a execucao de n consultas no
+banco de dados no caso quando eu coloco na index de subject 
+a pesquisa question.subject.description o active_record deixa fazer isso
+pelo fato de as tabelas terem relacao uma com a outra.
+
+para resolver isso basta ir no controller de question e inserir um cara chamado 
+includes que ai ele ja fara a execucao da query de uma vez
