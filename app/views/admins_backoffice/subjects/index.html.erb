@@ -16,8 +16,9 @@
 <table class="table table-hover text-nowrap">
     <thead>
       <tr>
-        <th>ID</th>
-        <th>Descricao</th>
+        <th>ID</th> 
+        <th><%= translate_attribute(@subjects,:description)%></th>
+
         <th>
           <%=link_to new_admins_backoffice_subject_path, class: 'btn btn-success btn-circle' do%>
           <i class="fa fa-plus"></i> Novo
