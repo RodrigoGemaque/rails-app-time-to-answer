@@ -1,3 +1,4 @@
+------------------172-Problema n+1 sql Active_Record
 O problema n+1 esta relacionado com a execucao de n consultas no
 banco de dados no caso quando eu coloco na index de subject 
 a pesquisa question.subject.description o active_record deixa fazer isso
@@ -5,3 +6,34 @@ pelo fato de as tabelas terem relacao uma com a outra.
 
 para resolver isso basta ir no controller de question e inserir um cara chamado 
 includes que ai ele ja fara a execucao da query de uma vez
+
+------------------173-Incrementando i18n nos models--------------
+Basicamente e para traduzir compas com texto fixo em algumas views
+
+comandos da aula: 
+em rails c
+
+a = Subject.all
+a.model : pega as informacoes referentes ao model Subject
+a.model.human_attribute_name(:description) : verifica se existe na aplicacao um i18n para esse campo 
+especificado.
+
+na index de question
+<th><%= @questions.model.human_attribute_name(:description)%></th> e faz isso para assuntos tambem
+usando a variavel questions criada na aula 172
+
+para nao ficar esse codigo grande foi criado helper para resolver isso
+em helper admins_backoffice
+
+def translate_attribute(object = nil, method = nil)
+    if object && method
+      object.model.human_attribute_name(method)
+    else
+      puts "Informe os parametros corretamente"
+    end
+  end
+
+nas views a chamada fica assim:
+<%= translate_attribute(@questions, :description)%>
+
+
