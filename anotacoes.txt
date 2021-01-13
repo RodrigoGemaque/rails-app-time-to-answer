@@ -36,4 +36,18 @@ def translate_attribute(object = nil, method = nil)
 nas views a chamada fica assim:
 <%= translate_attribute(@questions, :description)%>
 
+------------------174-I18n com parametros--------------
+Basicamente para listar o campo lista de administradores, perguntas e areas
+cria outro arquivo i18n
+messages.pt-BR.yml:
+    listing: Listando %{model} para poder pegar o model que esta sendo traduzido
+    messages.confirm_with: deseja realmente excluir %{item}
+
+chamada no view:
+      <h2><%=t('messages.listing')%></h2> t e de translate_attribute
+    data:{confirm: t('messages.confirm_with', item: subject.description.truncate(25))} final do comando para deletar
+
+
+
+
 
