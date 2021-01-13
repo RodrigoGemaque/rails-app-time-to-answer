@@ -28,11 +28,11 @@
        <div class="card-body">
         <div class="form-group">          
           <%=form.label :description%>
-          <%=form.text_field :description, class:"form-control",placeholder:"Enter with description"%>
+          <%=form.text_field :description, class:"form-control",placeholder:t('placeholders.description')%>
         </div> 
         
         <div class="card-footer">
-          <%=form.submit "Salvar", class:"btn btn-primary"%>
+          <%=form.submit t('buttons.save'), class:"btn btn-primary"%>
 
         </div>   
       
