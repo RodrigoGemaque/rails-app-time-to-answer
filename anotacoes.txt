@@ -103,6 +103,35 @@ params[:question][:answers_attributes].push({description: 'resposta 4', correct:
 params[:question][:answers_attributes][1] = ({description: 'resposta X', correct: false}) pega os dados da pasição 1 e os altera
 
 
+------------------------177- Criando uma task para as respostas----------------------------
+
+na task os procedimentos foram parecidos com o que já estava sendo feito
+  ficou assim 
+  desc "Adiciona perguntas e respostas"
+  task add_answers_and_questions: :environment do
+    Subject.all.each do |subject|
+      rand(5..10).times do |i|
+        params = {question: {
+          description:  "#{Faker::Lorem.paragraph} #{Faker::Lorem.question}",
+          subject: subject,
+          answers_attributes: []
+        }}      
+
+        #insere respostas no vetor answers_attributes
+        rand(2..5).times do |j|
+          params[:question][:answers_attributes].push(
+            {description: Faker::Lorem.sentence, correct: false}
+          )      
+        end 
+
+        #atualiza uma das respostas como verdadeira
+        index = rand(params[:question][:answers_attributes].size) # faz um sorteio de uma das perguntas
+        params[:question][:answers_attributes][index] = {description: Faker::Lorem.sentence, correct: true}
+        #cria a pergunta
+        Question.create!(params[:question])
+      end
+    end
+  end
 
 
 
