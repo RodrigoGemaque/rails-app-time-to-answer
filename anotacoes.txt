@@ -133,7 +133,20 @@ na task os procedimentos foram parecidos com o que já estava sendo feito
     end
   end
 
+----------------------181-Instalando a gem Cocoon----------------------------------
+Serve Basicamente para facilitar o trabalho de desenvolver campos na mesma
+view que acessam outros models usando nested_attributes
 
+a documentação é bem clara quanto a instalação da lib
+
+em models tem que fazer isso
+  belongs_to :subject,  inverse_of: :questions > para não ocorrerem erros na view
+
+  accepts_nested_attributes_for :answers, reject_if: :all_blank, allow_destroy: true > para poder 
+  apagar compos que ficaram em branco
+no controller
+  nos params permit insere
+      answers_attributes: [:id, :description, :correct, :_destroy])
 
 
 
