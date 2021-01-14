@@ -151,6 +151,11 @@ no controller
 
 no shred_form de questions 
 
+-------------186- Debugando a aplicacao com o web console
+é um console que já vem por padrão no rails 
+ele sempre aparece quando ocorre um erro ou inserindo console em algum lugar 
+especifico nos controllers ou views
+
 
 
 
