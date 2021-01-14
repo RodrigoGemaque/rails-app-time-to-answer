@@ -47,6 +47,84 @@ chamada no view:
       <h2><%=t('messages.listing')%></h2> t e de translate_attribute
     data:{confirm: t('messages.confirm_with', item: subject.description.truncate(25))} final do comando para deletar
 
+-----------------175-3 formas de criar um registro no active_record-------------------
+1° forma: Question.create! description: "asdfsadf", subject: Subject.all.sample
+    Esse comando cria uma no question pegando um subject sorteado
+
+2° forma: q = Question.new
+          q.description = "qualquer coisa"
+          q.subject = Subject.all.sample 
+          q.save!
+    Essa forma vai passando os atributos de forma individual
+
+#
+3° forma É a forma como vem sendo feito nos controllers 
+    por debaixo dos panos ocorre isso
+    params = {question: {description: "qualquer coisa", subject_id: 123}}
+        params é um hash que está passando para o model question em forma de hash tambem description e 
+        subject_id
+
+  ai para acessar essas informacoes sem dar erro
+    params[:question] ai ele acessa as informacoes gravadas
+
+Por fim  Question.create!(params[:question]) cria mais campo na tabela com as informacoes gravadas  
+ ou jogar em uma variavel
+        a = Question.create!(params[:question]) 
+        a.save!
+
+é isso que acontece quando damos um submit no html ele pega as informacoes passadas e cria um hash 
+com esses valores e submete ao servidor
+
+------------------------175- Entendendo o Nested Attributes---------------------------------------------------
+
+Serve Basicamente para nao precisarmos criar outro menu para fazer todas as interacoes com o model desejado
+No caso Question vai conseguir acessar os atributos de Answer e fazer a criacao  das answers.
+
+no model Question
+para fazer a referencia a tabela answer colocou
+has_many :answer
+e para conseguir pegar os atributos
+  accepts_nested_attributes_for :answers, allow_destroy: true
+
+
+params = {question:
+ { description: 'loren ipsun?', subject_id: 1, answers_attributes:[
+   {description: 'resposta 1', correct: false},
+   {description: 'resposta 2', correct:true},
+   {description: 'resposta 3',correct:false}
+   ]}}
+
+------------------------176- Adicionando e Atualizando um array de hash------------------
+
+conforme o codigo da aula anterior para conseguir adicionar mais elementos no array com os hash é simple:
+
+params[:question][:answers_attributes] já pega os dados inseridos no array
+params[:question][:answers_attributes].push({description: 'resposta 4', correct: false}) já pega os dados inseridos no array
+params[:question][:answers_attributes][1] = ({description: 'resposta X', correct: false}) pega os dados da pasição 1 e os altera
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
