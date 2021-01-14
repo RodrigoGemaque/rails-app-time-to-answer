@@ -3,15 +3,20 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.7.1'
 
+#translation
 gem 'rails-i18n', '~> 6.0.0'
 
 gem 'devise'
-
+#animation terminal for tasks or seeds
 gem 'tty-spinner'
 
+#Fake data
 gem 'faker'
-
+#pagination
 gem 'kaminari'
+#nested_attributes easy form
+gem 'cocoon'
+
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 6.1.0'
