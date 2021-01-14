@@ -1,17 +1,27 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>TimeToAswer</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>TimeToAswer</title>
+
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    
   </head>
- 
-  <body>
-  <h1> LAYOUT ADMIN- DEVISE</h1>
+  <body class="hold-transition login-page">
     <%= yield %>
+
   </body>
 </html>
+
+
+
+
+
+
+
