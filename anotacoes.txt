@@ -147,7 +147,9 @@ em models tem que fazer isso
 no controller
   nos params permit insere
       answers_attributes: [:id, :description, :correct, :_destroy])
+---------------------182- Continuçao da instalaçao do Cocoon---------------------------------
 
+no shred_form de questions 
 
 
 
