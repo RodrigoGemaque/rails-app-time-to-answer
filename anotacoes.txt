@@ -166,7 +166,8 @@ end
 existe um devise_controller? se sim ele interpola o resource_class que devolve assim> Admin ou User e transforma
 para string e depois coloca em caixa baixa mais o _devise> ficando assim "admin_devise"
 
-
+--------------191- Link para perfil---------------------------------
+Link do perfil feito e foi usado icones do font-ansow free
 
 
 
