@@ -184,6 +184,31 @@ para fazer a pesquisa funcionar basta ir no controller de search e colocar o seg
 ele pega do banco de dados por meio da instrução LIKE o texto digitado por meio do term
 não é recomendável fazer esse tipo de pesquisa
 
+-----------195- Usando métodos de classe no model-----------------------
+
+ao invés de fazer acessos no controller mandamos essa responsabilidade para o model
+dentro na declaração do model inserimos o termo self na sua frente, assim não será necessário 
+fazer a chamada do model para acesso o método.
+
+  No model
+  def self.search(term,page) 
+    Question.includes(:answers)
+            .where("lower(description) LIKE ?", "%#{term.downcase}%")
+            .page(page)
+  end
+  No controller
+    def questions
+    #   @questions = Question.includes(:answers).page params[:
+      @questions = Question.search(params[:term], params[:page
+    end
+
+fazendo ordenação por criação mais recente 
+
+também utilizando métodos de classse, mas esses métodos inseridos são para fazer pesquisas.
+Quando temos essa finalidade não é recomendável utilazar métodos de classe e sim scopes
+então a alteração ficará assim:
+    
+
 
 
 
