@@ -169,6 +169,21 @@ para string e depois coloca em caixa baixa mais o _devise> ficando assim "admin_
 --------------191- Link para perfil---------------------------------
 Link do perfil feito e foi usado icones do font-ansow free
 
+------------193- Adicionando barra de pesquisa---------------------
+Insere um barra de pesquis do bootstrap no layout do site
+para fazer a pesquisa tem que ser criado um novo controller para isso
+essa rota ainda não existe por isso o novo controller.
+ele ficará dentro de site 
+------------194- Fazendo o search funcionar-------------------------
+
+para fazer a pesquisa funcionar basta ir no controller de search e colocar o seguinte código
+@questions = Question.includes(:answers)
+        .where("lower(description) LIKE ?", "%#{params[:term].downcase}%")
+        .page(params[:page])
+
+ele pega do banco de dados por meio da instrução LIKE o texto digitado por meio do term
+não é recomendável fazer esse tipo de pesquisa
+
 
 
 
