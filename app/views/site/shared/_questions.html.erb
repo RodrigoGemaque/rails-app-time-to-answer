@@ -1,0 +1,21 @@
+
+<% @questions.each do |question|  %>
+<div class="card w-75">
+  <div class="card-header">
+    <%= question.description%>
+  </div>
+  <div class="card-body">
+    <ul class = "align-self-center">
+      <%question.answers.each do |answer|%>
+        <li><%=answer.description%></li>
+      <%end%>
+    </ul>
+  </div>
+</div>  
+
+<%end%>
+  <div class = "d-flex justify-content-center"> 
+    <%= paginate @questions %>
+  </div>
+
+
