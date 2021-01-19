@@ -4,13 +4,32 @@ class Question < ApplicationRecord
   accepts_nested_attributes_for :answers, reject_if: :all_blank, allow_destroy: true
   max_paginates_per 5
 
-  def self.search(term,page) 
-    Question.includes(:answers)
+  #metodo de classe
+  # def self.search(term,page) 
+  #   includes(:answers)
+  #           .where("lower(description) LIKE ?", "%#{term.downcase}%")
+  #           .page(page)
+  # end
+
+  # def self.last_question(page)
+  #   includes(:answers).order('created_at desc').page(page)
+  # end
+
+  #Scopes
+    scope :search, -> (term,page){ 
+    includes(:answers, :subject)
             .where("lower(description) LIKE ?", "%#{term.downcase}%")
             .page(page)
-  end
-  def self.last_question(page)
-    Question.includes(:answers).order('created_at desc').page(page)
-  end
+    }
+
+    scope :last_question, -> (page){
+      includes(:answers).order('created_at desc').page(page)
+    }
+
+    scope :_search_subject_, -> (subject_id,page){ 
+    includes(:answers)
+            .where(subject_id: subject_id)
+            .page(page)
+    }
 
 end
