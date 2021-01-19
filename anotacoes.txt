@@ -196,6 +196,8 @@ fazer a chamada do model para acesso o método.
             .where("lower(description) LIKE ?", "%#{term.downcase}%")
             .page(page)
   end
+O self. está chamando o nome do model no caso Question, ou seja, nem precisa do nome dele na frente
+
   No controller
     def questions
     #   @questions = Question.includes(:answers).page params[:
@@ -207,6 +209,19 @@ fazendo ordenação por criação mais recente
 também utilizando métodos de classse, mas esses métodos inseridos são para fazer pesquisas.
 Quando temos essa finalidade não é recomendável utilazar métodos de classe e sim scopes
 então a alteração ficará assim:
+
+    scope :search, -> (term,page){ 
+    includes(:answers, :subject)
+            .where("lower(description) LIKE ?", "%#{term.downcase}%")
+            .page(page)
+    }
+
+
+-------------------------------198 199 200----Insindo pesquisa e os compos das respostas e fazendo elas funcionarem-------------------
+
+Para fazer as pesquisas foi criado um controller search com as actions questions e subject para pesquisar as questoes e selecionar os assuntos
+foram feitas alterações nas rotas nas views para essas features funcionarem
+ 
     
 
 
