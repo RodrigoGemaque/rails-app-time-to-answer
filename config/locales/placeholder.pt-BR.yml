@@ -1,0 +1,6 @@
+'pt-BR':
+  placeholders:
+    email: Digite o email
+    password: Digite a senha
+    password_confirmation: Confirme a senha 
+    description: Insira a descricao do elemento

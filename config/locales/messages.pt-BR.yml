@@ -1,0 +1,4 @@
+'pt-BR':
+  messages:
+    listing: Listando %{model}
+    confirm_with: Voce deseja realmente escluir [%{item}]

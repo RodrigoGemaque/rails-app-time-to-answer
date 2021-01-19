@@ -47,9 +47,8 @@
               <!-- this dropdown menu item (a logout form) does not -->
                 <li>
 
-                  <%if admin_signed_in?%>
-                    <%= link_to 'Log off', destroy_admin_session_path, method: :delete, class:"nav-item "%>
-                  <%else%>
+                  <%if user_signed_in?%>
+                    
                     <%= link_to 'Log off', destroy_user_session_path, method: :delete, class:"nav-item "%>
 
                   <%end%>       

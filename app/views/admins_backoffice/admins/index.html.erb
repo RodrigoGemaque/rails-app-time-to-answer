@@ -8,7 +8,8 @@
 
 <div class="container-fluid">
     <div class="row mb-6">
-      <h2>Lista de Administradores</h2>
+      <h2><%=t('messages.listing', model: @admins.model_name.human(count: 2))%></h2>
+
     </div>    
   </div>
 
@@ -17,7 +18,8 @@
     <thead>
       <tr>
         <th>ID</th>
-        <th>Email</th>
+        <th><%= translate_attribute(@admins,:email)%></th>
+        
         <th>
           <%=link_to new_admins_backoffice_admin_path, class: 'btn btn-success btn-circle' do%>
           <i class="fa fa-plus"></i> Novo
@@ -40,7 +42,7 @@
               </td>
 
               <td>
-                <%=link_to admins_backoffice_admin_path(admin.id),method: :delete, class: 'btn btn-danger',data:{confirm:"Deseja realmente excluir esse administrador?"} do%>
+                <%=link_to admins_backoffice_admin_path(admin.id),method: :delete, class: 'btn btn-danger',data:{confirm: t('messages.confirm_with', item: admin.email.truncate(15))} do%>
                   <i class="fas fa-trash"></i> Del
                 <%end%>
               </td>
@@ -50,8 +52,9 @@
       </tbody>
   </table>
 
+    <div class = "d-flex justify-content-center"> 
     <%= paginate @admins %>
- 
+  </div>
 
 </div
 

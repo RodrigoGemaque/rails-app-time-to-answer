@@ -1,31 +1,66 @@
-<h2>Log in- Admin</h2>
 
-<header class="header_auth text-center">
-  <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+<div class="login-box">
+  <div class="login-logo">
+    <a> <b>Login Administrativo</b>LTE</a>
   </div>
-</header>
+  <!-- /.login-logo -->
+  <div class="card">
+    <div class="card-body login-card-body">
+      <p class="login-box-msg">Sign in to start your session</p>
 
-<header class="header_auth text-center">
-  <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "current-password" %>
-  </div>
+  <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>        
 
-  </header>
+        <div class="input-group mb-3">
+          <% f.label :email %><br />          
+          <%= f.email_field :email, autofocus: true, autocomplete: "email", class:"form-control",  placeholder: "Email" %>
+          <div class="input-group-append">
+              <div class="input-group-text">
+                 <span class="fas fa-envelope"></span>
+              </div>
+            </div>
+          </div>  
 
-  <% if devise_mapping.rememberable? %>
-    <div class="field">
-      <%= f.check_box :remember_me %>
-      <%= f.label :remember_me %>
-    </div>
-  <% end %>
+          <div class="input-group mb-3">
+          <% f.label :email %><br />          
+          <%= f.password_field :password, autofocus: true, autocomplete: "Senha", class:"form-control",  placeholder: "Senha" %>
+          <div class="input-group-append">
+              <div class="input-group-text">
+                 <span class="fas fa-lock"></span>
+              </div>
+            </div>
+          </div>  
+           
+        
+        <% if devise_mapping.rememberable? %>
+            <div class="row">
+              <div class="col-8">
+                <div class="icheck-primary">  
+                <label for="remember">          
+                  <%= f.check_box :remember_me, type: "checkbox", id: "remember"  %>
+                  <%= f.label :remember_me, for: "remember" %> 
+                  </label>                 
+                </div>
+              </div>
+                 <div class="col-4">
+                  <%= f.submit "Sign In", class: "btn btn-primary btn-block" %>
+                </div>
+            </div>
+        <%end%> 
+  <%end%>
+ <%= render "admins/shared/links", class: "text-center" %>
 
-  <div class="actions">
-    <%= f.submit "Log in" %>
-  </div>
-<% end %>
 
-<%= render "admins/shared/links" %>
+       
+
+
+
+       
+
+
+
+
+
+
+
+
+

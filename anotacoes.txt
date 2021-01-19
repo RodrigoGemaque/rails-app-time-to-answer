@@ -1,0 +1,246 @@
+------------------172-Problema n+1 sql Active_Record
+O problema n+1 esta relacionado com a execucao de n consultas no
+banco de dados no caso quando eu coloco na index de subject 
+a pesquisa question.subject.description o active_record deixa fazer isso
+pelo fato de as tabelas terem relacao uma com a outra.
+
+para resolver isso basta ir no controller de question e inserir um cara chamado 
+includes que ai ele ja fara a execucao da query de uma vez
+
+------------------173-Incrementando i18n nos models--------------
+Basicamente e para traduzir compas com texto fixo em algumas views
+
+comandos da aula: 
+em rails c
+
+a = Subject.all
+a.model : pega as informacoes referentes ao model Subject
+a.model.human_attribute_name(:description) : verifica se existe na aplicacao um i18n para esse campo 
+especificado.
+
+na index de question
+<th><%= @questions.model.human_attribute_name(:description)%></th> e faz isso para assuntos tambem
+usando a variavel questions criada na aula 172
+
+para nao ficar esse codigo grande foi criado helper para resolver isso
+em helper admins_backoffice
+
+def translate_attribute(object = nil, method = nil)
+    if object && method
+      object.model.human_attribute_name(method)
+    else
+      puts "Informe os parametros corretamente"
+    end
+  end
+
+nas views a chamada fica assim:
+<%= translate_attribute(@questions, :description)%>
+
+------------------174-I18n com parametros--------------
+Basicamente para listar o campo lista de administradores, perguntas e areas
+cria outro arquivo i18n
+messages.pt-BR.yml:
+    listing: Listando %{model} para poder pegar o model que esta sendo traduzido
+    messages.confirm_with: deseja realmente excluir %{item}
+
+chamada no view:
+      <h2><%=t('messages.listing')%></h2> t e de translate_attribute
+    data:{confirm: t('messages.confirm_with', item: subject.description.truncate(25))} final do comando para deletar
+
+-----------------175-3 formas de criar um registro no active_record-------------------
+1° forma: Question.create! description: "asdfsadf", subject: Subject.all.sample
+    Esse comando cria uma no question pegando um subject sorteado
+
+2° forma: q = Question.new
+          q.description = "qualquer coisa"
+          q.subject = Subject.all.sample 
+          q.save!
+    Essa forma vai passando os atributos de forma individual
+
+#
+3° forma É a forma como vem sendo feito nos controllers 
+    por debaixo dos panos ocorre isso
+    params = {question: {description: "qualquer coisa", subject_id: 123}}
+        params é um hash que está passando para o model question em forma de hash tambem description e 
+        subject_id
+
+  ai para acessar essas informacoes sem dar erro
+    params[:question] ai ele acessa as informacoes gravadas
+
+Por fim  Question.create!(params[:question]) cria mais campo na tabela com as informacoes gravadas  
+ ou jogar em uma variavel
+        a = Question.create!(params[:question]) 
+        a.save!
+
+é isso que acontece quando damos um submit no html ele pega as informacoes passadas e cria um hash 
+com esses valores e submete ao servidor
+
+------------------------175- Entendendo o Nested Attributes---------------------------------------------------
+
+Serve Basicamente para nao precisarmos criar outro menu para fazer todas as interacoes com o model desejado
+No caso Question vai conseguir acessar os atributos de Answer e fazer a criacao  das answers.
+
+no model Question
+para fazer a referencia a tabela answer colocou
+has_many :answer
+e para conseguir pegar os atributos
+  accepts_nested_attributes_for :answers, allow_destroy: true
+
+
+params = {question:
+ { description: 'loren ipsun?', subject_id: 1, answers_attributes:[
+   {description: 'resposta 1', correct: false},
+   {description: 'resposta 2', correct:true},
+   {description: 'resposta 3',correct:false}
+   ]}}
+
+------------------------176- Adicionando e Atualizando um array de hash------------------
+
+conforme o codigo da aula anterior para conseguir adicionar mais elementos no array com os hash é simple:
+
+params[:question][:answers_attributes] já pega os dados inseridos no array
+params[:question][:answers_attributes].push({description: 'resposta 4', correct: false}) já pega os dados inseridos no array
+params[:question][:answers_attributes][1] = ({description: 'resposta X', correct: false}) pega os dados da pasição 1 e os altera
+
+
+------------------------177- Criando uma task para as respostas----------------------------
+
+na task os procedimentos foram parecidos com o que já estava sendo feito
+  ficou assim 
+  desc "Adiciona perguntas e respostas"
+  task add_answers_and_questions: :environment do
+    Subject.all.each do |subject|
+      rand(5..10).times do |i|
+        params = {question: {
+          description:  "#{Faker::Lorem.paragraph} #{Faker::Lorem.question}",
+          subject: subject,
+          answers_attributes: []
+        }}      
+
+        #insere respostas no vetor answers_attributes
+        rand(2..5).times do |j|
+          params[:question][:answers_attributes].push(
+            {description: Faker::Lorem.sentence, correct: false}
+          )      
+        end 
+
+        #atualiza uma das respostas como verdadeira
+        index = rand(params[:question][:answers_attributes].size) # faz um sorteio de uma das perguntas
+        params[:question][:answers_attributes][index] = {description: Faker::Lorem.sentence, correct: true}
+        #cria a pergunta
+        Question.create!(params[:question])
+      end
+    end
+  end
+
+----------------------181-Instalando a gem Cocoon----------------------------------
+Serve Basicamente para facilitar o trabalho de desenvolver campos na mesma
+view que acessam outros models usando nested_attributes
+
+a documentação é bem clara quanto a instalação da lib
+
+em models tem que fazer isso
+  belongs_to :subject,  inverse_of: :questions > para não ocorrerem erros na view
+
+  accepts_nested_attributes_for :answers, reject_if: :all_blank, allow_destroy: true > para poder 
+  apagar compos que ficaram em branco
+no controller
+  nos params permit insere
+      answers_attributes: [:id, :description, :correct, :_destroy])
+---------------------182- Continuçao da instalaçao do Cocoon---------------------------------
+
+no shred_form de questions 
+
+-------------186- Debugando a aplicacao com o web console
+é um console que já vem por padrão no rails 
+ele sempre aparece quando ocorre um erro ou inserindo console em algum lugar 
+especifico nos controllers ou views
+
+-------------187 Meta programação para login user devise
+o codigo foi melhorado para isso
+def layout_by_resource
+    #condicional ternaria  
+     devise_controller? ? "#{resource_class.to_s.downcase}_devise" : "application"
+end
+
+existe um devise_controller? se sim ele interpola o resource_class que devolve assim> Admin ou User e transforma
+para string e depois coloca em caixa baixa mais o _devise> ficando assim "admin_devise"
+
+--------------191- Link para perfil---------------------------------
+Link do perfil feito e foi usado icones do font-ansow free
+
+------------193- Adicionando barra de pesquisa---------------------
+Insere um barra de pesquis do bootstrap no layout do site
+para fazer a pesquisa tem que ser criado um novo controller para isso
+essa rota ainda não existe por isso o novo controller.
+ele ficará dentro de site 
+------------194- Fazendo o search funcionar-------------------------
+
+para fazer a pesquisa funcionar basta ir no controller de search e colocar o seguinte código
+@questions = Question.includes(:answers)
+        .where("lower(description) LIKE ?", "%#{params[:term].downcase}%")
+        .page(params[:page])
+
+ele pega do banco de dados por meio da instrução LIKE o texto digitado por meio do term
+não é recomendável fazer esse tipo de pesquisa
+
+-----------195- Usando métodos de classe no model-----------------------
+
+ao invés de fazer acessos no controller mandamos essa responsabilidade para o model
+dentro na declaração do model inserimos o termo self na sua frente, assim não será necessário 
+fazer a chamada do model para acesso o método.
+
+  No model
+  def self.search(term,page) 
+    Question.includes(:answers)
+            .where("lower(description) LIKE ?", "%#{term.downcase}%")
+            .page(page)
+  end
+O self. está chamando o nome do model no caso Question, ou seja, nem precisa do nome dele na frente
+
+  No controller
+    def questions
+    #   @questions = Question.includes(:answers).page params[:
+      @questions = Question.search(params[:term], params[:page
+    end
+
+fazendo ordenação por criação mais recente 
+
+também utilizando métodos de classse, mas esses métodos inseridos são para fazer pesquisas.
+Quando temos essa finalidade não é recomendável utilazar métodos de classe e sim scopes
+então a alteração ficará assim:
+
+    scope :search, -> (term,page){ 
+    includes(:answers, :subject)
+            .where("lower(description) LIKE ?", "%#{term.downcase}%")
+            .page(page)
+    }
+
+
+-------------------------------198 199 200----Insindo pesquisa e os compos das respostas e fazendo elas funcionarem-------------------
+
+Para fazer as pesquisas foi criado um controller search com as actions questions e subject para pesquisar as questoes e selecionar os assuntos
+foram feitas alterações nas rotas nas views para essas features funcionarem
+ 
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

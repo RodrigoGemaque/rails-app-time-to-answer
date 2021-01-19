@@ -16,6 +16,8 @@ import "channels"
 
 require('admin-lte');
 require('bootstrap-notify/');
+require('jquery')
+require('@nathanvda/cocoon')
 
 
 

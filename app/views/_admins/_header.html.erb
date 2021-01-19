@@ -32,33 +32,32 @@
       
       <!-- Notifications Dropdown Menu -->
       
-      <li class="nav-item">
-        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button"><i
-            class="fas fa-th-large"></i></a>
-      </li>
+     
       
     
      <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Sair<span class="caret"></span></a>
-            <ul class="dropdown-menu">            
-
-              <!-- this dropdown menu item (a logout form) does not -->
-                <li>
-
-                  <%if admin_signed_in?%>
-                    <%= link_to 'Log off', destroy_admin_session_path, method: :delete, class:"nav-item "%>
-                  <%else%>
-                    <%= link_to 'Log off', destroy_user_session_path, method: :delete, class:"nav-item "%>
-
-                  <%end%>       
+           <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <%=current_admin.email%>
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                  
+                      <%= link_to  admins_backoffice_welcome_index_path, class:"dropdown-item" do %> 
+                            <i class = "fas fa-user-alt"></i> Perfil
+                        <%end%>
+                      <%= link_to  destroy_admin_session_path, method: :delete, class:"dropdown-item" do %> 
+                              <i class = "fas fa-sign-out-alt"></i> Sair
+                      <%end%>    
+                </ul>
+              </li>      
               
-              </li>
-            </ul>
-          </li>
+            </li>
+              </ul>
+            </li>
         </ul>
-</div
+      </div
 
     </ul>
 

@@ -1,6 +1,25 @@
+
+
 <!DOCTYPE html>
-<html>
-  <head>
+<html >
+<head>
+  <style>
+    /* Stackoverflow preview fix, please ignore */
+    .navbar-nav {
+      flex-direction: row;
+    }
+    
+    .nav-link {
+      padding-right: .5rem !important;
+      padding-left: .5rem !important;
+    }
+    
+    /* Fixes dropdown menus placed on the right side */
+    .ml-auto .dropdown-menu {
+      left: auto !important;
+      right: 0px;
+    }
+  </style>
     <title>TimeToAswer</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
@@ -8,10 +27,61 @@
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-  </head>
 
-  <body>
-  <h1> Layout-Site</h1>
-    <%= yield %>
-  </body>
-</html
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary rounded">
+  <a><%= link_to ' Time to Answer', root_path, class: "navbar-brand"%></a>
+  <ul class="navbar-nav mr-auto">
+
+
+    <%= form_with(url: site_search_path, local: true, method: :get,class:"form-inline my-2 my-lg-0") do |form|%>
+      <%=form.text_field :term, class:"form-control",placeholder: "Digite algo"%>     
+       <button class="btn btn-success my-2 my-sm-0" type="submit">Pesquisar</button>
+    <%end%>
+   
+
+
+  </ul>
+  <ul class="navbar-nav ml-auto">
+  <%unless user_signed_in?%> 
+      <li class="nav-item ">
+        <%=link_to 'Entrar', new_user_session_path, class: "nav-link"%>
+      </li>
+     <li class="nav-item ">
+        <%=link_to 'Cadastrar', new_user_registration_path, class: "nav-link"%>    
+            
+      </li>
+      <%else%>
+         <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <%=current_user.email%>
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            
+                 <%= link_to  users_backoffice_welcome_index_path, class:"dropdown-item" do %> 
+                       <i class = "fas fa-user-alt"></i> Perfil
+                  <%end%>
+                 <%= link_to  destroy_user_session_path, method: :delete, class:"dropdown-item" do %> 
+                         <i class = "fas fa-sign-out-alt"></i> Sair
+                <%end%>    
+          </ul>
+      </li>
+
+<%end%>
+      
+
+
+
+     
+  </ul>
+</nav>
+
+  <%= yield %>
+</body>
+</html>
+
+
+
+
+
